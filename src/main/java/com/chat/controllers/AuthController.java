@@ -1,0 +1,116 @@
+package com.chat.controllers;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
+import com.chat.data.services.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import javax.ws.rs.NotFoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
+import com.chat.data.models.User;
+import com.chat.data.models.UserPermission;
+import com.chat.pogo.LoginPOGO;
+import com.chat.data.services.MyUserDetailsService;
+
+@Controller
+public class AuthController {
+	
+	@Autowired MyUserDetailsService myUserDetailsService;
+	
+	@Autowired PasswordEncoder passwordEncoder;
+
+	@Autowired HttpServletRequest request;
+	
+	private String pageTitle= "login";
+
+	
+	@GetMapping("/login")
+	public String login(Model model)
+	{
+		model.addAttribute("loginForm", new LoginPOGO());
+		model.addAttribute("title",  this.pageTitle);
+		return "login";
+	}
+
+
+	private void authenticateThatUser(UserDetails userDetails, HttpServletRequest request){
+
+		UsernamePasswordAuthenticationToken springAuthToken=
+			new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+		// springAuthToken.setDetails(new WebAuthenticationDetails(request));
+		// springAuthToken.setDetails(userDetails);
+		SecurityContext sctx= SecurityContextHolder.getContext();
+		sctx.setAuthentication(springAuthToken);
+		HttpSession session= request.getSession(true); 
+		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sctx);
+	
+	}
+	
+        @PostMapping("/login")
+	public String Login(@ModelAttribute("loginForm") @Validated LoginPOGO loginPOGO,
+			    Errors errors)
+	{
+
+		if(errors.hasErrors()){return "login";}
+		try
+			{
+				UserDetails userDetails= myUserDetailsService.loadUserByUsername(loginPOGO.getUsername());				
+			        
+				if(!passwordEncoder.matches(loginPOGO.getPassword(), userDetails.getPassword())){
+
+					errors.rejectValue("username", null,"username or password is wrong! try again");
+					return "login";
+
+				}
+				
+				authenticateThatUser(userDetails, this.request);
+				return "redirect:/";
+				
+				
+			}catch(Exception e )
+			{
+				errors.rejectValue("username", null,"username dosn't exist!");
+				return "login";
+
+			}					
+	}
+
+
+
+	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
+	public String logout(HttpServletRequest request, HttpServletResponse response)
+	{
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication != null){
+			new SecurityContextLogoutHandler().logout(request, response, authentication);
+		        SecurityContextHolder.getContext().setAuthentication(null);	
+		}
+		return "redirect:login";
+	}
+	
+}

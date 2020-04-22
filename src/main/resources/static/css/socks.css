@@ -1,0 +1,113 @@
+/* primary: #1779ba */
+
+.inline {display: inline;}
+
+p.available {color: green}
+
+body
+{
+    background-color: #eeeeff;
+}
+
+div.main-container div.chat{
+    margin-top: 20px;
+}
+
+div.main-grid{
+    min-height: 450px;
+    
+    border: 1px solid grey;    
+    position: relative;
+}
+
+
+
+div.main-container div.chat div.card
+{
+    padding: 10px;
+    
+}
+
+div.main-container div.chat div.card div.card-section {position: relative;}
+
+
+div.messages-area {
+    max-height: 500px;
+    height: 400px;
+    position: relative;
+    overflow-y: scroll;
+}
+
+div.messages-area, div.members-area
+{
+    
+    
+}
+
+
+div.members-area{display: fiexed;}
+
+div.members-title
+{
+    padding: 10px;
+    background-color: #1779ba;
+    color: white;
+}
+
+div.members-title p
+{
+    height: 100%;
+    width: 100%;
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+div.members-area div.member
+{
+    border-bottom: 1px solid black;
+    padding-top: 30px;
+}
+
+
+div.members-area div.member p.member-name
+{
+    text-align: center;
+}
+
+
+div.members-area div.member p.member-status
+{
+    text-align: right;
+    padding-right: 15px;
+}
+
+div.members-area div.member p.member-status::after
+{}
+
+.message {
+    padding: 10px;
+}
+
+.member-from {
+    font-size: x-large;
+}
+
+
+div.new-message {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    /* margin-top: 10px; */
+}
+
+div.new-message * {
+    margin: 0;
+}
+
+div.new-message form.new-message-form div.input-group input[type="text"]{
+    border-top: 1px solid #000000;
+    border-left: 1px solid #000000;
+    border-bottom: .1px solid #000000;
+}
