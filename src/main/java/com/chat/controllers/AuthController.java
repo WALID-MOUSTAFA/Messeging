@@ -1,3 +1,11 @@
+
+/**
+ *
+ * REMEMBER walid:
+ * you can set the principal to be a UserDetails Object >> it's better because you will need extra info 
+ *
+ */
+
 package com.chat.controllers;
 
 import java.util.Collection;

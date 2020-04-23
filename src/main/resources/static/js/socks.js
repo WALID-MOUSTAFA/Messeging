@@ -25,7 +25,8 @@ $(document).ready(function(){
 	stompClient.connect({}, function(msg) {
 		stompClient.subscribe("/topic/chat", function(msg){
 			var messageBody= JSON.parse(msg.body).body;
-			appendMessage(null, messageBody, "div.messages-area")
+			var messageUsername= JSON.parse(msg.body).username;
+			appendMessage(messageUsername, messageBody, "div.messages-area")
 		});
 		
 	}); //stompClient.connect
