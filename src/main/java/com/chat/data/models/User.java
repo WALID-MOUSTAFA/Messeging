@@ -1,16 +1,15 @@
 package com.chat.data.models;
 
-
+import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
-
-
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -27,9 +26,9 @@ public class User {
 	private String password;
 
 	@Null
-	@OneToMany(mappedBy= "user")
+	@OneToMany(mappedBy= "user", fetch = FetchType.LAZY)
 	private Collection<UserPermission> userPermissions;
-
+	
 	public void setId(Long id){
 		this.id = id;
 	}
@@ -49,6 +48,7 @@ public class User {
 	public void setFullname(String fullname){
 		this.fullname= fullname;
 	}
+
 	public String getFullname(){
 		return this.fullname;
 	}
@@ -56,6 +56,7 @@ public class User {
 	public void setPassword(String password){
 		this.password= password;
 	}
+	
 	public String getPassword(){
 		return this.password;
 	}

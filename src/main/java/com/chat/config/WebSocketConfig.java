@@ -20,7 +20,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 			.setRelayPort(61613)
 			.setSystemLogin("guest")
 			.setSystemPasscode("guest");
-			
+
+		
 	}
 
 	@Override

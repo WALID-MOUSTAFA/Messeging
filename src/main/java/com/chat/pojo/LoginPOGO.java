@@ -1,4 +1,4 @@
-package com.chat.pogo;
+package com.chat.pojo;
 
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;

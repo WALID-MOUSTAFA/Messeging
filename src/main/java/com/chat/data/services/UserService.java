@@ -5,6 +5,8 @@ import javax.ws.rs.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.chat.data.repos.UserRepo;
 import com.chat.data.models.User;
 
@@ -20,10 +22,10 @@ public class UserService{
 	public void save(User user) {
 		repo.save(user);
 	}
-
-
+	
+	
 	public List<User> findAll(){
-		return repo.findAll();
+		return (List<User>) repo.findAll();
 	}
 
 	public List<User> findByUsername(String username){
@@ -35,5 +37,8 @@ public class UserService{
 
 		return l;
 	}
+
 	
+
+
 }

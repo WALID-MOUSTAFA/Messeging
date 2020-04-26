@@ -1,5 +1,6 @@
 package com.chat.data.models;
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class UserPermission {
@@ -11,6 +12,7 @@ public class UserPermission {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "ID" )
+	@JsonIgnore
 	private User user;
 
 	@ManyToOne(fetch= FetchType.LAZY)

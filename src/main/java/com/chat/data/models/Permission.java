@@ -2,8 +2,12 @@ package com.chat.data.models;
 
 import java.util.Collection;
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Permission{
 
 
@@ -20,6 +24,7 @@ public class Permission{
 	
 
 	@OneToMany(mappedBy = "permission" , fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Collection<UserPermission> users;
 
 

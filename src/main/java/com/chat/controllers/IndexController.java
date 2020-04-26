@@ -4,24 +4,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.messaging.simp.user.SimpUserRegistry;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 
 
 @Controller
 public class IndexController{
-
-	@Autowired
-	SimpUserRegistry simpUserRegistry;
-
+	
+	
 	@RequestMapping("/")
 	public String index()
 	{
 
-		System.out.printf("\n\n\n%d\n\n\n", simpUserRegistry.getUserCount());
-		return "index";
+		Authentication authentication=
+			SecurityContextHolder.getContext().getAuthentication();
+		
+		if(authentication != null && !authentication.getName().equals("anonymousUser")) {
+			return "index";
+		}
+		
+		return "redirect:login";
 	}
-
-	
-	
 	
 }
+ 

@@ -1,16 +1,10 @@
-
-/**
- *
- * REMEMBER walid:
- * you can set the principal to be a UserDetails Object >> it's better because you will need extra info 
- *
- */
-
 package com.chat.controllers;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,14 +32,13 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import com.chat.data.models.User;
 import com.chat.data.models.UserPermission;
-import com.chat.pogo.LoginPOGO;
+import com.chat.pojo.LoginPOGO;
 import com.chat.data.services.MyUserDetailsService;
 
 @Controller
-public class AuthController {
+public class AuthenticationController {
 	
 	@Autowired MyUserDetailsService myUserDetailsService;
 	
@@ -69,8 +62,7 @@ public class AuthController {
 
 		UsernamePasswordAuthenticationToken springAuthToken=
 			new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
-		// springAuthToken.setDetails(new WebAuthenticationDetails(request));
-		// springAuthToken.setDetails(userDetails);
+		springAuthToken.setDetails(userDetails);
 		SecurityContext sctx= SecurityContextHolder.getContext();
 		sctx.setAuthentication(springAuthToken);
 		HttpSession session= request.getSession(true); 
@@ -79,7 +71,7 @@ public class AuthController {
 	}
 	
         @PostMapping("/login")
-	public String Login(@ModelAttribute("loginForm") @Validated LoginPOGO loginPOGO,
+	public String login(@ModelAttribute("loginForm") @Validated LoginPOGO loginPOGO,
 			    Errors errors)
 	{
 
@@ -118,6 +110,13 @@ public class AuthController {
 			new SecurityContextLogoutHandler().logout(request, response, authentication);
 		        SecurityContextHolder.getContext().setAuthentication(null);	
 		}
+		return "redirect:login";
+	}
+	
+
+	@RequestMapping("/403")
+	public String accessDeniedHandle()
+	{
 		return "redirect:login";
 	}
 	

@@ -27,12 +27,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
 			.and()
 			.authorizeRequests()
-			.antMatchers("/static/**", "/login/**").permitAll()
-			.anyRequest().authenticated()
-			.and()
-			.formLogin().disable();
+			.antMatchers("/static/**", "/login/**", "/logout/**").permitAll();
 			
-		        
+			
+		//REMEMBER: authenticate / && handle 403
 	}
 
 
