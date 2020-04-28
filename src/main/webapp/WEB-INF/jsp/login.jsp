@@ -25,7 +25,7 @@
 		    </div>
 
 		    <label>Username
-			<input required name="username" type="text" placeholder="username">
+			<input autofocus required name="username" type="text" placeholder="username">
 		    </label>
 		    <label>Password
 			<input required name="password" type="password" placeholder="Password">

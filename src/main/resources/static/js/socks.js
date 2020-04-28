@@ -1,28 +1,26 @@
 var socket = new SockJS('/chat');
 var stompClient = Stomp.over(socket);
-
+var privateMessageArea= $("div.private-popup");
 
 /*****************************************************************************/
 
-function appendMessage(user, message, MessagesElement)
+function appendMessage(user, message, messagesElement)
 {
 	
-	var messageEl = "<div class='message'>";
+	var messageTemplate = "<div class='message'> <p class='member-from inline'> {{ user }} \
+		               </p> <span>:</span> <p class='message-body inline'>  \
+		               {{message}}  \
+                               </p> </div>";
 
-	messageEl += "<p class='member-from inline'>" + user+
-		"</p> <span>:</span> <p class='message-body inline'>"
-		+message+ "</p>";
-
-	messageEl += "</div>";
-
-	$(MessagesElement).append(messageEl);	
+	var data= { user: user, message: message };
+	$(messagesElement).append(Mustache.render(messageTemplate, data ));	
 } //appendMEssage
 
 
 function seakEndMessagesArea() { $(".messages-area").scrollTop($(".messages-area")[0].scrollHeight); }
 
 
-function fetchUsers(url, callback) {
+function fetchMessages(url, callback) {
 	$.ajax({
 		url: url,
 		method: "get",
@@ -72,32 +70,22 @@ stompClient.connect({}, function(msg) {
 		seakEndMessagesArea();
 	}); //end subscribe("/topic/chat").
 
+	
+	stompClient.subscribe("/user/topic/chat.private", function(msg){
+		// var messageBody= JSON.parse(msg.body).body;
+		var messageSender= JSON.parse(msg.body).username;
+		
+		privateMessageArea.append(Mustache.render("<h4> {{username}} sent you a message, click <a href='/private/{{username}}'> open </a> to open </h4> ", {username: messageSender}));
+		
+	}); //end subscribe("/topic/chat").
+
+
 
 }); //end stompClient.connect
 
 
 $(document).ready(function(){
-
-	fetchUsers("/users", function(err, data) {
-		if(err != null) {
-			console.log(err);
-			//TODO: proper error handling;
-			return;
-		}else {
-			
-			
-			for(var i=0; i < data.length; ++i) {
-				var member= '<div class="member grid-x"> \
-			                     <p class="member-name small-6">' + data[i].username +  '</p> \
-				             <p class="member-status small-6"></p> \
-				             </div>';
-				$(".members-area").append(member);
-			}
-		}
-
-	}); //end fetchUser
-
-
+	
 	$("form.new-message-form").on("submit", function(event){
 		event.preventDefault();
 		var data = $(this).serializeArray()[0];
@@ -109,5 +97,14 @@ $(document).ready(function(){
 		$(this).trigger("reset");
 		
 	});
+
+
+	fetchMessages("/public-messages", function(err, data) {
+		for(var i= 0; i < data.length; ++i) {
+			appendMessage(data[i].sender.username, data[i].message.body, "div.messages-area");
+		}
+		seakEndMessagesArea();
+	});
+	
 
 }); //end $(document).ready.

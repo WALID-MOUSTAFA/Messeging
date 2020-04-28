@@ -7,6 +7,9 @@ p.available {color: green}
 body
 {
     background-color: #eeeeff;
+    position: relative;
+    min-height: 640px;
+
 }
 
 div.main-container div.chat{
@@ -63,6 +66,13 @@ div.members-title p
     margin: 0;
 }
 
+div.members-area {
+    overflow-y: scroll;
+    max-height: 500px;
+     height: 400px;
+    position: relative;
+}
+
 div.members-area div.member
 {
     border-bottom: 1px solid black;
@@ -110,4 +120,21 @@ div.new-message form.new-message-form div.input-group input[type="text"]{
     border-top: 1px solid #000000;
     border-left: 1px solid #000000;
     border-bottom: .1px solid #000000;
+}
+
+
+div.members-area div.member div.actions {
+    display: block;
+    width: 100%;
+    text-align: end;
+    margin: 0 0 0 3px;
+    padding-right: 15px;
+}
+
+
+div.private-popup-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    
 }
