@@ -69,9 +69,11 @@ $(document).ready(function(){
 	});
 
 	fetchMessages("/private-messages/"+$("div.info").data("target"), function(err, data) {
-		for(var i= 0; i < data.length; ++i) {
-			appendMessage(data[i].sender.username, data[i].message.body, "div.messages-area");
+		var reversedData= data.reverse();
+		for(var i= 0; i < reversedData.length; ++i) {
+			appendMessage(reversedData[i].sender.username, reversedData[i].message.body, "div.messages-area");
 		}
+
 		seakEndMessagesArea();
 	});
 	

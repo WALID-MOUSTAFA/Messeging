@@ -12,7 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.chat.data.services.UserService;
 import com.chat.data.services.UserDBMessageService;
@@ -63,17 +66,36 @@ public class MainController{
 
 
 	@RequestMapping("/public-messages")
-	public ResponseEntity<List<UserDBMessage>> getPublicMessages(){
+	public ResponseEntity<List<UserDBMessage>> getPublicMessages(@RequestParam(value= "page", required=false) Integer page){
 
-		return new ResponseEntity<List<UserDBMessage>>(userDBMessageService.findPublic(), HttpStatus.OK);
+		Integer pageNumber= page != null? page : 0;
+		int pageSize= 500;
+		
+		Page<UserDBMessage> pagedResults= userDBMessageService
+			.findPublic(PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "message.createdAt")));
+
+		List<UserDBMessage> listResults = (List<UserDBMessage>)pagedResults.getContent();
+		return new ResponseEntity<List<UserDBMessage>>(listResults, HttpStatus.OK);
+		
 	} 
 
 	@RequestMapping("/private-messages/{targetUsername}")
 	public ResponseEntity<List<UserDBMessage>> getPrivateMessages(
 								      @PathVariable("targetUsername") String targetUsername,
-								      Authentication authentication){
+								      @RequestParam(value= "page", required=false) Integer page,
+								      Authentication authentication)
+	{
+		Integer pageNumber= page != null? page : 0;
+		int pageSize= 500;
 		String senderUsername= authentication.getName();
-		return new ResponseEntity<List<UserDBMessage>>(userDBMessageService.findMutual(senderUsername, targetUsername), HttpStatus.OK);
+
+		Page<UserDBMessage> pagedResults= userDBMessageService
+			.findMutual(senderUsername,
+				    targetUsername,
+				    PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "message.createdAt")));
+
+		List<UserDBMessage> listResults = (List<UserDBMessage>)pagedResults.getContent();
+		return new ResponseEntity<List<UserDBMessage>>(listResults, HttpStatus.OK);
 	} 
 
 }

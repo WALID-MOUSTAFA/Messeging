@@ -16,7 +16,6 @@ import com.chat.data.models.User;
 public interface UserDBMessageRepo extends CrudRepository<UserDBMessage, Long> {
 
 	public Page<UserDBMessage> findByTarget(User target, Pageable pageable);
-	// public Page<UserDBMessage> findBySender_usernameAndTarget_username(String sender, String target, pageable);
 	
 	@Query("SELECT x FROM UserDBMessage x WHERE (x.sender.username = ?1 AND x.target.username = ?2) OR (x.sender.username = ?2 AND x.target.username = ?1)")
 	public Page<UserDBMessage> findMutual(String sender, String target, Pageable pageable);

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.chat.data.repos.UserDBMessageRepo;
 import com.chat.data.models.UserDBMessage;
@@ -27,17 +30,17 @@ public class UserDBMessageService{
 		return (List<UserDBMessage>)repo.findAll();
 	}
 	
-	public List<UserDBMessage> findPublic(){
-		return (List<UserDBMessage>)repo.findByTarget(null);
+	public Page<UserDBMessage> findPublic(Pageable pageable){
+		return repo.findByTarget(null, pageable);
 	}
 
 		
-	public List<UserDBMessage> findPrivate(String sender, String target){
-		return (List<UserDBMessage>)repo.findBySender_usernameAndTarget_username(sender, target);
-	}
+	// public List<UserDBMessage> findPrivate(String sender, String target){
+	// 	return (List<UserDBMessage>)repo.findBySender_usernameAndTarget_username(sender, target);
+	// }
 
-	public List<UserDBMessage> findMutual(String sender, String target){
-		return (List<UserDBMessage>)repo.findMutual(sender, target);
+	public Page<UserDBMessage> findMutual(String sender, String target, Pageable pageable){
+		return repo.findMutual(sender, target, pageable);
 	}
 
 	
