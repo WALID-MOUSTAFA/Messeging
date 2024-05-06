@@ -69,7 +69,7 @@ public class AuthenticationController {
 	
 	}
 	
-        @PostMapping("/login")
+	@PostMapping("/login")
 	public String login(@ModelAttribute("loginForm") @Validated LoginPOGO loginPOGO,
 			    Errors errors)
 	{

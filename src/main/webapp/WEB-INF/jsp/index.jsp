@@ -20,14 +20,16 @@
 	    <div class="chat">
 		
 		<div class="card">
-		    <security:authorize access="isAuthenticated()">
-			authenticated as <security:authentication property="principal" /> 
+		
+		  <div class="card-section">
+			<security:authorize access="isAuthenticated()">
+			  Authenticated as <security:authentication property="principal" />
+			  <a href="/logout">logout?</a>
 		    </security:authorize>
 		    
-		    <div class="card-section">
-
 			<div class="main-grid grid-x">
-			    
+
+				
 			    <div class="messages-area cell small-8 columns">
 				<!-- <div class="message"> -->
 				<!--     <p class="member-from inline">walid</p> <span>:</span> <p class="message-body inline">hello</p> -->
@@ -52,7 +54,7 @@
 			    <div class="members-area cell small-4 columns">
 
 				<div class="members-title background-black background-primary">
-				    <p class="h4 text-center text-white">Members List</p>
+				    <p class="h4 text-center text-white">Members</p>
 				</div>
 
 				
@@ -63,7 +65,8 @@
 					<p class="member-name small-6"><%=user.getUsername()%></p>
 					<p class="member-status small-6"></p>
 					<div class="actions">
-					    <a class="private-anchor" style="text-align:center" href="/private/<%=user.getUsername()%>">private</a>
+					  <a class="private-anchor button" style="text-align:center" href="/private/<%=user.getUsername()%>">go private?</a>
+					  
 					</div>
 				    </div> 
 				<% }%> 

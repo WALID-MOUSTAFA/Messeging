@@ -17,7 +17,7 @@
 	    
 	    <div class="login-wrapper"> 
 		<form:form method="post" class="log-in-form" modelAttribute="loginForm">
-		    <p class="h4 text-center">Log in with you email account</p>
+		    <p class="h4 text-center">Log in with you Email or Username</p>
 
 		    <div class="form-errors">
 			<form:errors path="username"  cssClass="validate-error" element="div"/> 

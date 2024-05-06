@@ -35,8 +35,7 @@ div.main-container div.chat div.card div.card-section {position: relative;}
 
 
 div.messages-area {
-    max-height: 500px;
-    height: 400px;
+    height: 700px;
     position: relative;
     overflow-y: scroll;
 }
@@ -67,15 +66,13 @@ div.members-title p
 }
 
 div.members-area {
-    overflow-y: scroll;
-    max-height: 500px;
-     height: 400px;
     position: relative;
+	height: 800px;
 }
 
 div.members-area div.member
 {
-    border-bottom: 1px solid black;
+    border: 1px solid black;
     padding-top: 30px;
 }
 

@@ -23,8 +23,7 @@ import com.chat.data.models.UserPermission;
 public class MyUserPrincple implements UserDetails {
 
 	/**
-	 * Note: I used transient keywordto avoid the attempt to serialize that field,
-	 * I don't know if it's the best practice or not!!.
+	 * Note: I used transient keywordto avoid the attempt to serialize that field.
 	 */
 	private transient User user;
 
@@ -40,7 +39,8 @@ public class MyUserPrincple implements UserDetails {
 		List<GrantedAuthority> grantedAuthority = new ArrayList<GrantedAuthority>();
 		
 		l.forEach(e -> {
-				grantedAuthority.add(new SimpleGrantedAuthority(e.getPermission().getName()));
+				grantedAuthority
+					.add(new SimpleGrantedAuthority(e.getPermission().getName()));
 			});
 
 		return (Collection<GrantedAuthority>) grantedAuthority;
