@@ -11,7 +11,6 @@
 * #### Database Schema Located In resources/schema.sql            
 * #### Can Use Spring Message Broker Or Congigured To Use Rabbitmq (Provided With Docker Compose File)
 ## screenshots
-![Screenshot1](https://github.com/WALID-MOUSTAFA/Messeging/assets/167675181/ede8f49e-1712-4626-8373-76def73550f9)
-![Screenshot2](https://github.com/WALID-MOUSTAFA/Messeging/assets/167675181/f13f6a49-05f1-4504-af37-d392f2ee934a)   
-![Screenshot3](https://github.com/WALID-MOUSTAFA/Messeging/assets/167675181/0ffbaf98-ef9b-44a7-8a40-c2152a653eab)
-
+![Screenshot from 2024-04-21 13-38-13](https://github.com/WALID-MOUSTAFA/Messeging/assets/167675181/7f9df517-5ee5-4e9d-b561-3a80d331b61b)
+![Screenshot from 2024-04-21 13-40-17](https://github.com/WALID-MOUSTAFA/Messeging/assets/167675181/9dc601e0-c0cb-488a-8454-0aa36bd87019)
+![Screenshot from 2024-04-21 13-39-45](https://github.com/WALID-MOUSTAFA/Messeging/assets/167675181/67fa1f8d-3ca6-4fe4-89ad-573deb8d77d9)
